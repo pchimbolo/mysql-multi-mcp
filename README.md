@@ -296,7 +296,7 @@ All tools return structured JSON:
 - **Passwords in output:** The `list-connections` tool never exposes passwords. Error messages from MySQL are passed through as-is (they do not contain passwords).
 - **No SQL restrictions:** This server is intentionally permissive — it's a power tool for developers. Any SQL statement that the connected database user has privileges to run can be executed. Security is delegated to MySQL's own permission system. Use read-only database users for connections where write access isn't needed.
 
-## Limitations
+## Limitations / Potential Improvements
 
 - **No SSH tunnel support** — Only direct TCP connections are supported. If your database is behind a firewall, you'll need to set up an SSH tunnel externally (e.g. via `ssh -L`). The architecture is designed so SSH tunnel support can be added later without breaking changes.
 - **No TLS/SSL configuration** — The server uses `mysql2`'s default connection behavior. Custom CA certificates or client certificates are not yet configurable.
