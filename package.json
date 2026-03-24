@@ -1,0 +1,29 @@
+{
+  "name": "mysql-multi-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for dynamic, named MySQL/MariaDB connections",
+  "type": "module",
+  "bin": {
+    "mysql-multi-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "mysql",
+    "mariadb",
+    "database"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "mysql2": "^3.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}
