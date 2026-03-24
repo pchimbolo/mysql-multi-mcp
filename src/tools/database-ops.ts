@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { getPool } from "../connections.js";
+import { escapeIdentifier, validateSimpleIdentifier } from "../sql-utils.js";
 
 export function registerDatabaseTools(server: McpServer): void {
   server.tool(
@@ -43,9 +44,15 @@ export function registerDatabaseTools(server: McpServer): void {
     },
     async ({ connection, database, charset, collation }) => {
       const pool = await getPool(connection);
-      let sql = `CREATE DATABASE \`${database}\``;
-      if (charset) sql += ` CHARACTER SET ${charset}`;
-      if (collation) sql += ` COLLATE ${collation}`;
+      let sql = `CREATE DATABASE ${escapeIdentifier(database)}`;
+      if (charset) {
+        validateSimpleIdentifier(charset, "charset");
+        sql += ` CHARACTER SET ${charset}`;
+      }
+      if (collation) {
+        validateSimpleIdentifier(collation, "collation");
+        sql += ` COLLATE ${collation}`;
+      }
       await pool.query(sql);
       return {
         content: [
@@ -70,7 +77,7 @@ export function registerDatabaseTools(server: McpServer): void {
     },
     async ({ connection, database }) => {
       const pool = await getPool(connection);
-      await pool.query(`DROP DATABASE \`${database}\``);
+      await pool.query(`DROP DATABASE ${escapeIdentifier(database)}`);
       return {
         content: [
           {

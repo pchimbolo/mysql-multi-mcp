@@ -1,6 +1,13 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { getPool } from "../connections.js";
+import { escapeIdentifier } from "../sql-utils.js";
+
+function qualifyTable(table: string, database?: string): string {
+  return database
+    ? `${escapeIdentifier(database)}.${escapeIdentifier(table)}`
+    : escapeIdentifier(table);
+}
 
 export function registerIndexTools(server: McpServer): void {
   server.tool(
@@ -41,10 +48,9 @@ export function registerIndexTools(server: McpServer): void {
     },
     async ({ connection, table, index_name, database }) => {
       const pool = await getPool(connection);
-      const qualifiedTable = database
-        ? `\`${database}\`.\`${table}\``
-        : `\`${table}\``;
-      await pool.query(`DROP INDEX \`${index_name}\` ON ${qualifiedTable}`);
+      await pool.query(
+        `DROP INDEX ${escapeIdentifier(index_name)} ON ${qualifyTable(table, database)}`
+      );
       return {
         content: [
           {

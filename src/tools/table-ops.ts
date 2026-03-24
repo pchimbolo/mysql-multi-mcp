@@ -1,6 +1,13 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { getPool } from "../connections.js";
+import { escapeIdentifier } from "../sql-utils.js";
+
+function qualifyTable(table: string, database?: string): string {
+  return database
+    ? `${escapeIdentifier(database)}.${escapeIdentifier(table)}`
+    : escapeIdentifier(table);
+}
 
 export function registerTableTools(server: McpServer): void {
   server.tool(
@@ -16,7 +23,7 @@ export function registerTableTools(server: McpServer): void {
     async ({ connection, database }) => {
       const pool = await getPool(connection);
       let sql = "SHOW TABLES";
-      if (database) sql = `SHOW TABLES FROM \`${database}\``;
+      if (database) sql = `SHOW TABLES FROM ${escapeIdentifier(database)}`;
       const [rows] = await pool.query(sql);
       const tables = (rows as any[]).map((r) => Object.values(r)[0]);
       return {
@@ -43,10 +50,9 @@ export function registerTableTools(server: McpServer): void {
     },
     async ({ connection, table, database }) => {
       const pool = await getPool(connection);
-      const qualifiedTable = database
-        ? `\`${database}\`.\`${table}\``
-        : `\`${table}\``;
-      const [rows] = await pool.query(`DESCRIBE ${qualifiedTable}`);
+      const [rows] = await pool.query(
+        `DESCRIBE ${qualifyTable(table, database)}`
+      );
       return {
         content: [
           {
@@ -119,10 +125,7 @@ export function registerTableTools(server: McpServer): void {
     },
     async ({ connection, table, database }) => {
       const pool = await getPool(connection);
-      const qualifiedTable = database
-        ? `\`${database}\`.\`${table}\``
-        : `\`${table}\``;
-      await pool.query(`DROP TABLE ${qualifiedTable}`);
+      await pool.query(`DROP TABLE ${qualifyTable(table, database)}`);
       return {
         content: [
           {
