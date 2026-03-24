@@ -80,9 +80,8 @@ npm run build
 
 After building (or if using npx from a published package), configure your MCP client to run the server. Below are setup instructions for popular tools.
 
----
-
-### Claude Code
+<details>
+<summary><strong>Claude Code</strong></summary>
 
 No config file needed. Run this command in your terminal:
 
@@ -103,9 +102,10 @@ Or add it to your project's `.mcp.json`:
 }
 ```
 
----
+</details>
 
-### VS Code / VS Code Insiders
+<details>
+<summary><strong>VS Code / VS Code Insiders</strong></summary>
 
 Add to your **User Settings** (`settings.json`) or **Workspace Settings** (`.vscode/settings.json`):
 
@@ -135,9 +135,10 @@ Alternatively, create a `.vscode/mcp.json` file in your project root:
 }
 ```
 
----
+</details>
 
-### Cursor
+<details>
+<summary><strong>Cursor</strong></summary>
 
 Create or edit `.cursor/mcp.json` in your project root:
 
@@ -152,9 +153,10 @@ Create or edit `.cursor/mcp.json` in your project root:
 }
 ```
 
----
+</details>
 
-### Windsurf
+<details>
+<summary><strong>Windsurf</strong></summary>
 
 Add to your Windsurf MCP config (`~/.windsurf/mcp.json` or via Windsurf Settings > MCP):
 
@@ -169,9 +171,10 @@ Add to your Windsurf MCP config (`~/.windsurf/mcp.json` or via Windsurf Settings
 }
 ```
 
----
+</details>
 
-### Claude Desktop
+<details>
+<summary><strong>Claude Desktop</strong></summary>
 
 Edit your Claude Desktop config file:
 
@@ -189,9 +192,10 @@ Edit your Claude Desktop config file:
 }
 ```
 
----
+</details>
 
-### OpenCode
+<details>
+<summary><strong>OpenCode</strong></summary>
 
 Add to your OpenCode configuration (`opencode.json` or similar):
 
@@ -206,7 +210,7 @@ Add to your OpenCode configuration (`opencode.json` or similar):
 }
 ```
 
----
+</details>
 
 > **Note:** Replace `/absolute/path/to/mysql-multi-mcp/dist/index.js` with the actual absolute path to the built `dist/index.js` file on your system. On Windows, use forward slashes (e.g. `C:/Users/you/mysql-multi-mcp/dist/index.js`).
 
