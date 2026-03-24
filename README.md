@@ -289,10 +289,12 @@ All tools return structured JSON:
 
 ## Security Considerations
 
+- **Identifier escaping:** All user-supplied database, table, and index names are escaped using MySQL's backtick-doubling method before interpolation into SQL. This prevents identifier injection attacks where a crafted name could break out of the quoting context.
+- **Charset/collation validation:** The `charset` and `collation` parameters in `create-database` are validated against a strict allowlist (`[a-zA-Z0-9_]`) to prevent SQL injection through unquoted DDL clauses.
+- **Parameterized queries:** The `query` and `execute` tools support `params` (a positional array for `?` placeholders) for safe value binding.
 - **Passwords in config:** Stored in plaintext in `~/.mysql-multi-mcp/connections.json`. The file is created with `0600` permissions on Unix (owner read/write only). On Windows, it inherits the user directory's permissions. You are responsible for securing this file.
 - **Passwords in output:** The `list-connections` tool never exposes passwords. Error messages from MySQL are passed through as-is (they do not contain passwords).
 - **No SQL restrictions:** This server is intentionally permissive — it's a power tool for developers. Any SQL statement that the connected database user has privileges to run can be executed. Security is delegated to MySQL's own permission system. Use read-only database users for connections where write access isn't needed.
-- **Parameterized queries:** The `query` and `execute` tools support `params` (a positional array for `?` placeholders) for safe value binding.
 
 ## Limitations
 
