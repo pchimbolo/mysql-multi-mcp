@@ -70,7 +70,7 @@ Every tool that operates on a database takes a `connection` parameter — the na
 ### From Source
 
 ```bash
-git clone https://gitea.pmc-sandbox.xyz/pchimbolo/mysql-multi-mcp.git
+git clone https://github.com/pchimbolo/mysql-multi-mcp.git
 cd mysql-multi-mcp
 npm install
 npm run build
@@ -316,4 +316,4 @@ npm start
 
 ## License
 
-MIT
+Apache-2.0
